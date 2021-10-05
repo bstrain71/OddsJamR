@@ -31,7 +31,9 @@ get_odds <- function(oj_url = "https://api-external.oddsjam.com/api/feed/",
                      sport = character(0),
                      league = character(0),
                      gameId = character(0),
-                     time_zone = "America/New_York"
+                     time_zone = "America/New_York",
+                     startDateBefore = character(0),
+                     startDateAfter = character(0)
 ){
   # Do the API call
   response <- httr::GET(
@@ -43,7 +45,9 @@ get_odds <- function(oj_url = "https://api-external.oddsjam.com/api/feed/",
       marketName = marketName,
       sport = sport,
       league = league,
-      gameId = gameId
+      gameId = gameId,
+      startDateBefore = startDateBefore,
+      startDateAfter = startDateAfter
     ),
     httr::add_headers(`Authorization` = sprintf("key %s", key))
   )

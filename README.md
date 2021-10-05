@@ -35,6 +35,15 @@ set_OddsJam_api_key("your-key-here")
 
 ### Core Functions
 
+Get some odds for a given date.
+
+``` r
+some_odds <- get_odds(sport = 'football',
+                      startDateAfter = '2021-10-07',
+                      startDateBefore = '2021-10-08'
+                      )
+```
+
 Get the best lines for a given sport on a given day. Market defaults to
 Moneyline.
 
