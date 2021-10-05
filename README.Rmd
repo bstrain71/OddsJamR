@@ -1,0 +1,78 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# OddsJamR
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+This package lets you interact with the OddsJam.com API. Documentation for the API
+is available here: https://developer.oddsjam.com/getting-started/
+
+You will need an API key to use this package. You can get one by emailing api@oddsjam.com
+
+## Installation
+
+You can install the development version of OddsJamR from github.
+
+Use: 
+
+``` r
+devtools::install_github("bstrain71/OddsJamR")
+```
+
+```
+## Authentication
+
+You must load the library and authenticate with the API using your API key.
+
+
+```{r example}
+library(OddsJamR)
+set_OddsJam_api_key("your-key-here")
+
+```
+
+To get the best sportsbook lines for a given sport on a given day try the code below.
+
+Note that historical odds are not available: you can't get odds for past dates.
+
+Dates must be written in the format 'YYYY-MM-DD' like '2021-10-07'
+
+Sports available are:
+-football
+-basketball
+-baseball
+-mma
+-boxing
+-hockey
+-soccer
+-tennis
+-golf
+-motorsports
+-esports
+
+```{r best, eval = FALSE, echo = TRUE}
+best <- get_days_best(game_date = '2021-10-07',
+                      sport = 'football')
+```
+
+
+
+```{r pressure, echo = FALSE}
+
+```
+
+In that case, don't forget to commit and push the resulting figure files, so they display on GitHub and CRAN.

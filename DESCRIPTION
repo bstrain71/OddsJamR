@@ -1,12 +1,13 @@
 Package: OddsJamR
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Interact with the OddsJam.com API
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Author: Brandon Strain
+Maintainer: <mail@dingerstats.com>
+Description: This package is for interacting with the OddsJam REST API. Use it to get odds for almost every sport updated in real-time. You will need an OddsJam API key to use this package. Visit OddsJam.com for more details.
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.1
+URL: https://github.com/bstrain71/OddsJamR
+BugReports: https://github.com/bstrain71/OddsJamR/issues
