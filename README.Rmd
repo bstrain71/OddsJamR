@@ -29,23 +29,51 @@ You can install the development version of OddsJamR from github.
 
 Use: 
 
-``` r
+```{r, eval = FALSE}
 devtools::install_github("bstrain71/OddsJamR")
 ```
 
-```
 ## Authentication
 
 You must load the library and authenticate with the API using your API key.
 
-
-```{r example}
+```{r auth, eval = FALSE}
 library(OddsJamR)
-set_OddsJam_api_key("your-key-here")
-
+set_OddsJam_api_key("")
 ```
 
-To get the best sportsbook lines for a given sport on a given day try the code below.
+### Core Functions
+
+Get the best lines for a given sport on a given day. Market defaults to Moneyline.
+
+```{r best, eval = FALSE, echo = TRUE}
+best <- get_days_best(game_date = '2021-10-07',
+                      sport = 'football',
+                      market = 'Moneyline')
+```
+
+For a list of available markets you will need a gameId - otherwise you will get markets for all games for all sports.
+
+```{r gameId_markets, eval = FALSE, echo = TRUE}
+# Get some game IDs
+ids <- get_gameIds(sport = 'football',
+                   league = 'NFL',
+                   startDateAfter = '2021-10-07',
+                   startDateBefore = '2021-10-08')
+
+# Look at which games are in the selected date range
+ids
+
+# Get the available markets for the first game in the list
+markets <- get_markets(gameId = ids$id[1])
+```
+
+Once you have a list of markets for a game, you can check the best available lines for that market amongs all available sportsbooks.
+
+```{r best_market, eval = FALSE, echo = TRUE}
+best_market <- get_days_best(gameId = ids$id[1],
+                             market = markets$name[29])
+```
 
 Note that historical odds are not available: you can't get odds for past dates.
 
@@ -63,16 +91,3 @@ Sports available are:
 -golf
 -motorsports
 -esports
-
-```{r best, eval = FALSE, echo = TRUE}
-best <- get_days_best(game_date = '2021-10-07',
-                      sport = 'football')
-```
-
-
-
-```{r pressure, echo = FALSE}
-
-```
-
-In that case, don't forget to commit and push the resulting figure files, so they display on GitHub and CRAN.

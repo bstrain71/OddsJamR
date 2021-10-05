@@ -9,7 +9,7 @@
 #' @param key Your api key is automatically put here if you have passed it to the set_OddsJam_api_key function.
 #' @param page The page of the response you want. Note: the API is paginated and only sends 500 odds at a time.
 #' @param gameId The OddsJam game ID you want to receive odds for (e.g. 37621).
-#' @param isLive Filters odds for live games. Defaults to TRUE.
+#' @param isLive Filters odds for live games. Use TRUE or FALSE. Defaults to neither.
 #' @param time_zone You can get the times in your desired time zone. Defaults to Eastern Time. To see a list of useable time zones type OlsonNames() into the console.
 #'
 #' @return Returns a dataframe with the requested markets.
@@ -21,7 +21,7 @@ get_markets <- function(oj_url = "https://api-external.oddsjam.com/api/feed/mark
                      key = .OddsJamEnv$data$apikey,
                      page = character(0),
                      gameId = character(0),
-                     isLive = TRUE,
+                     isLive = character(0),
                      time_zone = "America/New_York"
 ){
   # Do the API call
