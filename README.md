@@ -30,7 +30,7 @@ key.
 
 ``` r
 library(OddsJamR)
-set_OddsJam_api_key("")
+set_OddsJam_api_key("your-key-here")
 ```
 
 ### Core Functions

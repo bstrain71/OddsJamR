@@ -39,7 +39,7 @@ You must load the library and authenticate with the API using your API key.
 
 ```{r auth, eval = FALSE}
 library(OddsJamR)
-set_OddsJam_api_key("")
+set_OddsJam_api_key("your-key-here")
 ```
 
 ### Core Functions
