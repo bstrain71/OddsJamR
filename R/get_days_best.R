@@ -8,7 +8,7 @@
 #'
 #' @param startDateAfter Filter by games that start after a date. Format dates as "YYYY-MM-DD" for example "2021-10-31"
 #' @param game_date The date you want to filter games by - format as "YYYY-MM-DD"
-#' @param gameId The game you want the selected market for. If you want all markets use the get_odds() function.
+#' @param game_id The game you want the selected market for. If you want all markets use the get_odds() function.
 #' @param sport The sport you want lines for.
 #' @param market The market you want lines for. Defaults to Moneyline. See ?get_markets for instructions on how to get a list of markets.
 #'
@@ -17,15 +17,14 @@
 
 get_days_best <- function(game_date = character(0),
                           sport = character(0),
-                          market = "Moneyline",
                           league = character(0),
-                          gameId = character(0)
+                          game_id = character(0)
 ){
 
-  # If no gameId is provided then get all games for the selected market.
-  if(length(gameId) == 0){
+  # If no game_id is provided then get all games for the selected market.
+  if(length(game_id) == 0){
     # Get game ids
-    ids <- get_gameIds(sport = sport,
+    ids <- get_game_ids(sport = sport,
                        startDateAfter = game_date) # Gets game on that date forward
 
     # Filter games that are later than the selected date
@@ -37,8 +36,7 @@ get_days_best <- function(game_date = character(0),
         # Get the lines for that game
         temp <- tryCatch({
           # Try to get some odds for the id.
-          get_odds(gameId = ids$id[i],
-                   marketName = market,
+          get_odds(game_id = ids$id[i],
                    league = league)
         },
         error = function(cond){
@@ -69,15 +67,17 @@ get_days_best <- function(game_date = character(0),
       message("No games on the selected date.")
     }}
 
-  # If a gameId is provided then get the lines for the selected market in the selected game.
+  # If a game_id is provided then get the lines for the selected market in the selected game.
   else {
-    all_market_lines <- get_odds(gameId = gameId,
+    all_market_lines <- get_odds(game_id = game_id,
                                  marketName = market)
 
-    unique_markets <- unique(all_market_lines$name)
+    all_market_lines <- all_market_lines$odds[[1]]
+
+    unique_markets <- unique(all_market_lines$market_name)
 
     for(i in 1:length(unique_markets)){
-      temp <- subset(all_market_lines, name == unique_markets[i])
+      temp <- subset(all_market_lines, market_name == unique_markets[i])
       temp <- subset(temp, price == find_best_line(temp$price))
       if(exists('result') == FALSE){
         result <- temp

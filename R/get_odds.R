@@ -14,7 +14,7 @@
 #' @param marketName The market you want to receive odds for (e.g. Moneyline).
 #' @param sport The sport you want to receive odds for. Supported sports are: football, basketball, baseball, mma, boxing, hockey, soccer, tennis, golf, motorsports, esports.
 #' @param league The league you want to receive odds for (e.g. England - Premier League).
-#' @param gameId The OddsJam game ID you want to receive odds for (e.g. 37621).
+#' @param game_id The OddsJam game ID you want to receive odds for (e.g. 37621).
 #' @param time_zone You can get the times in your desired time zone. Defaults to Eastern Time. To see a list of useable time zones type OlsonNames() into the console.
 #' @param on_date Specify which date you want odds for. Format as YYYY-MM-DD.
 #'
@@ -23,14 +23,14 @@
 #' @examples
 #' get_odds()
 
-get_odds <- function(oj_url = "https://api-external.oddsjam.com/api/feed/",
+get_odds <- function(oj_url = .OddsJamEnv$data$odds_url,
                      key = .OddsJamEnv$data$apikey,
                      page = character(0),
                      sportsbook = character(0),
                      marketName = character(0),
                      sport = character(0),
                      league = character(0),
-                     gameId = character(0),
+                     game_id = character(0),
                      time_zone = "America/New_York",
                      startDateBefore = character(0),
                      startDateAfter = character(0)
@@ -45,7 +45,7 @@ get_odds <- function(oj_url = "https://api-external.oddsjam.com/api/feed/",
       marketName = marketName,
       sport = sport,
       league = league,
-      gameId = gameId,
+      game_id = game_id,
       startDateBefore = startDateBefore,
       startDateAfter = startDateAfter
     ),
@@ -66,21 +66,25 @@ get_odds <- function(oj_url = "https://api-external.oddsjam.com/api/feed/",
                               flatten = TRUE)
 
     # Make the list of lists into a manageable dataframe with correct names
-    flat <- as.data.frame(t((matrix(unlist(fin), nrow=length(unlist(fin[1]))))))
-    names(flat) <- names(unlist(fin[[1]]))
+    #flat <- as.data.frame(t((matrix(unlist(fin), nrow=length(unlist(fin[1]))))))
+    #names(flat) <- names(unlist(fin[[1]]))
+
+    # Make the list of lists into a manageable dataframe with correct names
+    flat <- jsonlite:::simplify(fin, flatten = TRUE)[["data"]]
 
     # Force time zone
-    flat$game.start_date <- suppressMessages(
-      lubridate::as_datetime(flat$game.start_date, tz = time_zone)
+    flat$start_date <- suppressMessages(
+      lubridate::as_datetime(flat$start_date, tz = time_zone)
     )
 
-    flat$checked_date <- suppressMessages(
-      lubridate::as_datetime(flat$checked_date, tz = time_zone)
-    )
-
-    flat$changed_date <- suppressMessages(
-      lubridate::as_datetime(flat$changed_date, tz = time_zone)
-    )
+    # These variable names seem to have been removed from the API endpoint.
+    # flat$checked_date <- suppressMessages(
+    #   lubridate::as_datetime(flat$checked_date, tz = time_zone)
+    # )
+    #
+    # flat$changed_date <- suppressMessages(
+    #   lubridate::as_datetime(flat$changed_date, tz = time_zone)
+    # )
 
     result <- flat
   }

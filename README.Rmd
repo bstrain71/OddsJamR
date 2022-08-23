@@ -44,44 +44,32 @@ set_OddsJam_api_key("your-key-here")
 
 ### Core Functions
 
-Get some odds for a given date.
+Get some game ids for a range of dates. The "game_id" parameter is now required to get odds, so you should start with this function.
+```{r get_gameIds, eval = FALSE, echo = TRUE}
+ids <- get_gameIds(sport = 'baseball',
+                   league = 'MLB',
+                   startDateAfter = '2022-08-21',
+                   startDateBefore = '2022-08-24')
+```
+
+Get a list of leagues. If you leave the <sport> parameter blank you'll get all available leagues for all sports.
+```{r get_leagues, eval = FALSE, echo = TRUE}
+leagues <- get_leagues(sport = 'football')
+```
+
+
+Get some odds for a given date. Note that the <game_id> parameter is required.
 
 ```{r get_odds, eval = FALSE, echo = TRUE}
-some_odds <- get_odds(sport = 'football',
-                      startDateAfter = '2021-10-07',
-                      startDateBefore = '2021-10-08'
-                      )
+some_odds <- get_odds(game_id = ids$id[21])
 ```
 
-Get the best lines for a given sport on a given day. Market defaults to Moneyline.
+Get the best lines for a given game_id.
 
 ```{r best, eval = FALSE, echo = TRUE}
-best <- get_days_best(game_date = '2021-10-07',
-                      sport = 'football',
-                      market = 'Moneyline')
-```
-
-For a list of available markets you will need a gameId - otherwise you will get markets for all games for all sports.
-
-```{r gameId_markets, eval = FALSE, echo = TRUE}
-# Get some game IDs
-ids <- get_gameIds(sport = 'football',
-                   league = 'NFL',
-                   startDateAfter = '2021-10-07',
-                   startDateBefore = '2021-10-08')
-
-# Look at which games are in the selected date range
-ids
-
-# Get the available markets for the first game in the list
-markets <- get_markets(gameId = ids$id[1])
-```
-
-Once you have a list of markets for a game, you can check the best available lines for that market amongs all available sportsbooks.
-
-```{r best_market, eval = FALSE, echo = TRUE}
-best_market <- get_days_best(gameId = ids$id[1],
-                             market = markets$name[29])
+best <- get_days_best(game_date = '2022-08-23',
+                      sport = 'baseball',
+                      game_id = ids$id[21])
 ```
 
 Note that historical odds are not available: you can't get odds for past dates.

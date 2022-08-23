@@ -19,7 +19,7 @@
 #' @examples
 #' get_gameIds()
 
-get_gameIds <- function(oj_url = "https://api-external.oddsjam.com/api/feed/games/",
+get_gameIds <- function(oj_url = .OddsJamEnv$data$games_url,
                         key = .OddsJamEnv$data$apikey,
                         page = character(0),
                         sport = character(0),
@@ -57,10 +57,8 @@ get_gameIds <- function(oj_url = "https://api-external.oddsjam.com/api/feed/game
                               flatten = TRUE)
 
     # Make the list of lists into a manageable dataframe with correct names
-    flat <- as.data.frame(t((matrix(unlist(fin), nrow=length(unlist(fin[1]))))))
-    names(flat) <- names(unlist(fin[[1]]))
+    result <- jsonlite:::simplify(fin, flatten = TRUE)[["data"]]
 
-    result <- flat
   }
   return(result)
 }

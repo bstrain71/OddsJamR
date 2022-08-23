@@ -15,9 +15,9 @@
 #' @examples
 #' get_leagues()
 
-get_leagues <- function(oj_url = "https://api-external.oddsjam.com/api/feed/leagues/",
+get_leagues <- function(oj_url = .OddsJamEnv$data$leagues_url,
                         key = .OddsJamEnv$data$apikey,
-                        sport = "baseball",
+                        sport = character(0),
                         isLive = FALSE
 ){
   # Do the API call
@@ -45,11 +45,11 @@ get_leagues <- function(oj_url = "https://api-external.oddsjam.com/api/feed/leag
                               flatten = TRUE)
 
     # Make the list of lists into a manageable dataframe with correct names
-    flat <- as.data.frame(t((matrix(unlist(fin), nrow=length(unlist(fin[1]))))))
-    names(flat) <- names(unlist(fin[[1]]))
+    # flat <- as.data.frame(t((matrix(unlist(fin), nrow=length(unlist(fin[1]))))))
+    # names(flat) <- names(unlist(fin[[1]]))
 
-
-    result <- flat
+    # Make the list of lists into a manageable dataframe with correct names
+    result <- jsonlite:::simplify(fin, flatten = TRUE)[["data"]]
   }
   return(result)
 }
